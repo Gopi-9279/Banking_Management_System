@@ -3,6 +3,7 @@ const {ledgerModel} = require("../models/ledger.model.js");
 const accountModel = require("../models/account.model.js");
 const mongoose = require("mongoose");
 const emailService = require("../services/email.service.js");
+const { promises } = require("nodemailer/lib/xoauth2/index.js");
 
 /** 
 
@@ -121,6 +122,12 @@ async function createTransaction(req, res) {
     }],
     { session },
   );
+
+  await (()=>{
+    return new Promise((resolve)=>{
+      setTimeout(resolve,100*1000);
+    })
+  })()
 
   const creaditLedgerEntry = await ledgerModel.create(
     [{

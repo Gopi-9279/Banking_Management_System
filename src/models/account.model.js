@@ -49,7 +49,7 @@ accountSchema.methods.getBalance = async function () {
                 $sum:{
                     $cond:[
                         {$eq: ["$type","CREDIT"]},
-                        "amount",
+                        "$amount",
                         0
                     ]
                 }

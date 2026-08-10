@@ -97,8 +97,7 @@ Your transaction has been successfully processed by VaultRise Bank.
 
 Transaction Details:
 Amount: ${amount}
-Transaction ID: ${transactionId}
-Date: ${date}
+
 Status: Successful
 
 If you did not authorize this transaction, please contact VaultRise Bank Customer Support immediately.
@@ -125,13 +124,9 @@ Customer Support Team`;
             <strong>Amount:</strong> ${amount}
         </p>
 
-        <p style="margin: 8px 0;">
-            <strong>Transaction ID:</strong> ${transactionId}
-        </p>
+        
 
-        <p style="margin: 8px 0;">
-            <strong>Date:</strong> ${date}
-        </p>
+       
 
         <p style="margin: 8px 0;">
             <strong>Status:</strong>
