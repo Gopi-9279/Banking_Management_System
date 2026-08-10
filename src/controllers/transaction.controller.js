@@ -164,7 +164,7 @@ async function createInitialFundsTransaction(req,res) {
     systemUser : true,
     user : req.user._id
   })
-  if(fromuserAccount){
+  if(!fromuserAccount){
     return res.status(400).json({
       message : "System user account not found"
     })
@@ -190,7 +190,7 @@ async function createInitialFundsTransaction(req,res) {
   );
   const creditLedgerEntry = await ledgerModel.create(
   [  {
-      account: toAccount._id,
+      account: touserAccount._id,
       amount: amount,
       transaction: transaction._id,
       type: "CREDIT",
