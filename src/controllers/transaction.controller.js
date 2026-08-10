@@ -161,7 +161,6 @@ async function createInitialFundsTransaction(req,res) {
     })
   }
   const fromuserAccount = await accountModel.findOne({
-    systemUser : true,
     user : req.user._id
   })
   if(!fromuserAccount){
