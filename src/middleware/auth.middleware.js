@@ -18,7 +18,7 @@ async function authMiddleware(req, res, next) {
     return next();
   } catch (err) {
     return res.status(401).json({
-      message: `Unauthorized access, token invalid ${token}`,
+      message: `Unauthorized access, token invalid`,
     });
   }
 }
@@ -32,8 +32,9 @@ async function authSystemUserMiddleware(req,res,next){
   }
   try{
     const decoded = jwt.verify(token,process.env.JWT_SECRET)
-    console.log(decoded);
-    const user = await userModel.findById((decoded.userId).select("+systemUser"))
+    const user = await userModel
+    .findById(decoded.userId)
+    .select("+systemUser")
     if(!user.systemUser){
       return res.status(403).json({
         message : "Forbiden access, not a system user"
@@ -44,7 +45,7 @@ async function authSystemUserMiddleware(req,res,next){
     return next()
   }catch(err){
     return res.status(401).json({
-      message : `Unauthorized access, token is invalid ${token}`
+      message : `Unauthorized access, token is invalid`
     })
   }
 
