@@ -1,5 +1,5 @@
-const transactionModel = require("../models/transaction.model.js");
-const ledgerModel = require("../models/ledger.model.js");
+const {transactionModel} = require("../models/transaction.model.js");
+const {ledgerModel} = require("../models/ledger.model.js");
 const accountModel = require("../models/account.model.js");
 const mongoose = require("mongoose");
 const emailService = require("../services/email.service.js");
@@ -196,6 +196,8 @@ async function createInitialFundsTransaction(req,res) {
     }],
     { session },
   );
+  transaction.status = "COMPLETED";
+  await transaction.save({ session });
   await session.commitTransaction()
   session.endSession()
   return res.status(201).json({

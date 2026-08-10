@@ -15,5 +15,19 @@ const router = express.Router()
 
 router.post("/",authMiddleware.authMiddleware,accountController.createAccountController)
 
+/**
+ * - GET /api/accounts
+ * - Create all accounts of the ledger-in user
+ * - Protected Route
+ */
 
+router.get("/",authMiddleware.authMiddleware,accountController.getUserAccountsContoller);
 module.exports = router
+
+/**
+ * - GET /api/accounts/balance/:accountId 
+ * - Create all accounts of the ledger-in user
+ * - Protected Route
+ */
+
+router.get("/balance/:accountId",authMiddleware.authMiddleware,accountController.getBalanceAccountsController)
