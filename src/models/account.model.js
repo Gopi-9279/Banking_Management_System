@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const ledgerModel = require("./ledger.model.js");
+const {ledgerModel} = require("./ledger.model.js");
 
 const accountSchema = new mongoose.Schema(
   {
@@ -49,6 +49,7 @@ accountSchema.methods.getBalance = async function () {
                 $sum:{
                     $cond:[
                         {$eq: ["$type","CREDIT"]},
+                        "amount",
                         0
                     ]
                 }
