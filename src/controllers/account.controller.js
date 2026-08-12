@@ -2,6 +2,13 @@ const accountModel = require("../models/account.model")
 
 async function createAccountController(req,res){
     const user = req.user;
+    const AccountExitswithThisUserId = await accountModel.findOne({user : user._id});
+    if(AccountExitswithThisUserId){
+        return res.status(422).json({
+            message : "Account exits with this user id",
+            status : "failed"
+        })
+    }
     const account = await accountModel.create({
         user:user._id
     })
