@@ -97,21 +97,23 @@ async function createTransaction(req, res) {
       message: `Insufficient balance. Current balance is ${balance}. Requested amount is ${amount} `,
     });
   }
+  let transaction;
+  try{
   /**
    * 5.Create Transaction(Pending)
    */
   const session = await mongoose.startSession()
   session.startTransaction();
 
-  const transaction = new transactionModel(
-    {
+   transaction = (await transactionModel.create(
+    [{
       fromAccount,
       toAccount,
       amount,
       idempotencyKey,
       status: "PENDING",
-    }
-  );
+    }],{session}
+  ))[0];
 
   const debitLedgerEntry = await ledgerModel.create(
     [{
@@ -125,7 +127,7 @@ async function createTransaction(req, res) {
 
   await (()=>{
     return new Promise((resolve)=>{
-      setTimeout(resolve,100*1000);
+      setTimeout(resolve,10*1000);
     })
   })()
 
@@ -139,9 +141,19 @@ async function createTransaction(req, res) {
     { session },
   );
 
-  ((transaction.status = "COMPLETED"), await transaction.save({ session }));
+  await transactionModel.findByIdAndUpdate(
+    {_id : transaction._id},
+    {status : "COMPLETED"},
+    {session}
+  )
+
   await session.commitTransaction()
   session.endSession()
+}catch(err){
+  return res.status(400).json({
+    message : "Transaction is pending due to some issue, please retry after some time."
+  })
+}
     /**
    * 10.Send Email Notification
    */  
