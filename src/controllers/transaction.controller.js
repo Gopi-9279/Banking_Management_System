@@ -140,6 +140,7 @@ async function createTransaction(req, res) {
   );
 
   ((transaction.status = "COMPLETED"), await transaction.save({ session }));
+  await session.commitTransaction()
   session.endSession()
     /**
    * 10.Send Email Notification
